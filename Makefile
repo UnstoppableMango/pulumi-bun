@@ -15,7 +15,7 @@ tidy: pulumi-language-bun/go.sum
 clean:
 	rm -rf bin/pulumi-language-bun
 
-bin/pulumi-language-bun: $(filter ./pulumi-language-bun/%,$(GO_SRC)) pulumi-language-bun/go.sum
+bin/pulumi-language-bun: $(filter ./pulumi-language-bun/%,$(GO_SRC)) pulumi-language-bun/go.mod
 	go -C pulumi-language-bun build -o ${WORKING_DIR}/$@ ./
 
 bin/pulumi: .versions/pulumi
