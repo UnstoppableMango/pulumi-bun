@@ -6,6 +6,7 @@ managed:
       value: github.com/unstoppablemango/pulumi-bun/pulumi-language-bun/proto
 
 plugins:
+  # Supposedly connectrpc is gRPC compatible, so it should work
   - remote: buf.build/connectrpc/go:v1.17.0
     out: pulumi-language-bun/proto
     opt:

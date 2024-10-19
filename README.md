@@ -1,6 +1,6 @@
 # Experimental Pulumi Bun Support
 
-Just me fiddling around and seeing if I can implement a Pulumi language provider.
+Just me fiddling around and seeing if I can implement a Pulumi language provider for Bun now that it has HTTP2 server support.
 
 ## References
 
