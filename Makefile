@@ -2,6 +2,8 @@ _ := $(shell mkdir -p bin)
 WORKING_DIR := $(shell git rev-parse --show-toplevel)
 PROJECT     := github.com/unstoppablemango/pulumi-bun
 
+GO_SRC := $(shell find . -type f -name '*.go')
+
 LOCALBIN := ${WORKING_DIR}/bin
 BUF      := ${LOCALBIN}/buf
 PULUMI   := ${LOCALBIN}/pulumi
@@ -18,7 +20,7 @@ clean:
 pulumi-language-bun/proto: | $(BUF)
 	$(BUF) generate
 
-bin/pulumi-language-bun:
+bin/pulumi-language-bun: $(filter ./pulumi-language-bun/%,$(GO_SRC))
 	go -C pulumi-language-bun build -o ${WORKING_DIR}/$@ ./
 
 bin/buf: .versions/buf
@@ -30,5 +32,5 @@ bin/pulumi: .versions/pulumi
 pulumi-language-bun/go.mod:
 	go -C pulumi-language-bun mod init ${PROJECT}/pulumi-language-bun
 
-pulumi-language-bun/go.sum:
+pulumi-language-bun/go.sum: pulumi-language-bun/go.mod $(filter ./pulumi-language-bun/%,$(GO_SRC))
 	go -C pulumi-language-bun mod tidy
