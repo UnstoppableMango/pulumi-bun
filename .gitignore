@@ -1,0 +1,7 @@
+bin/
+
+# All proto files are vendored
+proto/
+
+go.work
+go.work.sum
