@@ -1,0 +1,22 @@
+version: v2
+managed:
+  enabled: true
+  override:
+    - file_option: go_package_prefix
+      value: github.com/unstoppablemango/pulumi-bun/pulumi-language-bun/proto
+
+plugins:
+  # Supposedly connectrpc is gRPC compatible, so it should work
+  - remote: buf.build/connectrpc/go:v1.17.0
+    out: pulumi-language-bun/proto
+    opt:
+      - paths=source_relative
+  - remote: buf.build/protocolbuffers/go:v1.35.1
+    out: pulumi-language-bun/proto
+    opt:
+      - paths=source_relative
+
+inputs:
+  - git_repo: https://github.com/pulumi/pulumi
+    tag: v3.137.0
+    subdir: proto
