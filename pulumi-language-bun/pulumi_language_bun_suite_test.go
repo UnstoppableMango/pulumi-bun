@@ -23,6 +23,7 @@ import (
 	pbempty "google.golang.org/protobuf/types/known/emptypb"
 )
 
+// TODO: Less global state
 var (
 	engine         *hostEngine
 	engineAddress  string
