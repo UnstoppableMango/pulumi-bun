@@ -24,11 +24,10 @@ import (
 )
 
 var (
-	engine        *hostEngine
-	engineAddress string
-	stop          chan bool
-	testHostCmd   exec.Cmd
-	testClient    testingrpc.LanguageTestClient
+	engine         *hostEngine
+	engineAddress  string
+	stopHostEngine chan bool
+	host           *testHost
 )
 
 func TestPulumiLanguageBun(t *testing.T) {
@@ -40,12 +39,13 @@ var _ = BeforeSuite(func(ctx context.Context) {
 	testBinary, err := prepareTestLanguage(ctx)
 	Expect(err).NotTo(HaveOccurred())
 
-	client, err := runTestHost(ctx, testBinary)
+	host = &testHost{}
+	err = host.run(ctx, testBinary)
 	Expect(err).NotTo(HaveOccurred())
 
 	engine = &hostEngine{}
 	handle, err := rpcutil.ServeWithOptions(rpcutil.ServeOptions{
-		Cancel: stop,
+		Cancel: stopHostEngine,
 		Init: func(srv *grpc.Server) error {
 			pulumirpc.RegisterEngineServer(srv, engine)
 			return nil
@@ -55,11 +55,20 @@ var _ = BeforeSuite(func(ctx context.Context) {
 
 	Expect(err).NotTo(HaveOccurred())
 	engineAddress = fmt.Sprintf("127.0.0.1:%v", handle.Port)
-	testClient = client
 })
 
 var _ = AfterSuite(func() {
-	close(stop)
+	if stopHostEngine != nil {
+		close(stopHostEngine)
+	} else {
+		fmt.Fprintln(GinkgoWriter, "engine stop chan was nil")
+	}
+
+	if host != nil {
+		Expect(host.stop()).To(Succeed())
+	} else {
+		fmt.Fprintln(GinkgoWriter, "test host was nil")
+	}
 })
 
 type hostEngine struct {
@@ -148,16 +157,22 @@ func prepareTestLanguage(ctx context.Context) (string, error) {
 	return binary, nil
 }
 
-func runTestHost(ctx context.Context, binary string) (testingrpc.LanguageTestClient, error) {
+type testHost struct {
+	cmd    *exec.Cmd
+	client testingrpc.LanguageTestClient
+	wg     *sync.WaitGroup
+}
+
+func (host *testHost) run(ctx context.Context, binary string) error {
 	cmd := exec.CommandContext(ctx, binary)
 
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
-		return nil, fmt.Errorf("connecting to stdout: %w", err)
+		return fmt.Errorf("connecting to stdout: %w", err)
 	}
 	stderr, err := cmd.StderrPipe()
 	if err != nil {
-		return nil, fmt.Errorf("connecting to stderr: %w", err)
+		return fmt.Errorf("connecting to stderr: %w", err)
 	}
 
 	stderrReader := bufio.NewReader(stderr)
@@ -177,12 +192,12 @@ func runTestHost(ctx context.Context, binary string) (testingrpc.LanguageTestCli
 	}()
 
 	if err = cmd.Start(); err != nil {
-		return nil, fmt.Errorf("starting test host: %w", err)
+		return fmt.Errorf("starting test host: %w", err)
 	}
 
 	stdoutBytes, err := io.ReadAll(stdout)
 	if err != nil {
-		return nil, fmt.Errorf("reading test host address: %w", err)
+		return fmt.Errorf("reading test host address: %w", err)
 	}
 
 	address := string(stdoutBytes)
@@ -193,12 +208,25 @@ func runTestHost(ctx context.Context, binary string) (testingrpc.LanguageTestCli
 		rpcutil.GrpcChannelOptions(),
 	)
 	if err != nil {
-		return nil, fmt.Errorf("dialing test host: %w", err)
+		return fmt.Errorf("dialing test host: %w", err)
 	}
 
-	client := testingrpc.NewLanguageTestClient(conn)
+	host.cmd = cmd
+	host.client = testingrpc.NewLanguageTestClient(conn)
+	host.wg = &wg
 
-	// TODO: Kill the test host
+	return nil
+}
 
-	return client, nil
+func (host *testHost) stop() error {
+	if err := host.cmd.Process.Kill(); err != nil {
+		return fmt.Errorf("stopping test host: %w", err)
+	}
+
+	host.wg.Wait()
+
+	// This will error becuase the process has stopped
+	_ = host.cmd.Wait()
+
+	return nil
 }
