@@ -10,7 +10,7 @@ GINKGO   := ${LOCALBIN}/ginkgo
 
 build: bin/pulumi-language-bun
 
-test: | $(GINKGO)
+test: | bin/ginkgo
 	$(GINKGO) run ./pulumi-language-bun
 
 tools: $(addprefix bin/,buf pulumi)
@@ -38,10 +38,10 @@ bin/ginkgo: .versions/ginkgo
 update_%: .versions/%
 	rm -f $<
 
-$(GO_SRC:%.go=%_test.go): %_test.go: | $(GINKGO)
+$(GO_SRC:%.go=%_test.go): %_test.go: | bin/ginkgo
 	cd $(dir $@) && $(GINKGO) generate $(notdir $*)
 
-%_suite_test.go: | $(GINKGO)
+%_suite_test.go: | bin/ginkgo
 	cd $(dir $*) && $(GINKGO) bootstrap
 
 pulumi-language-bun/go.mod:
