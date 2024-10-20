@@ -28,6 +28,16 @@ bin/pulumi: .versions/pulumi
 bin/ginkgo: .versions/ginkgo
 	GOBIN=${LOCALBIN} go install github.com/onsi/ginkgo/v2/ginkgo@v$(shell cat $<)
 
+.versions/pulumi:
+	curl --fail -sSL https://api.github.com/repos/pulumi/pulumi/releases/latest \
+	| jq -r '.tag_name' \
+	| cut -c2- \
+	> $@
+
+# I'll figure out a cleaner way later
+update_%: .versions/%
+	rm -f $<
+
 $(GO_SRC:%.go=%_test.go): %_test.go: | $(GINKGO)
 	cd $(dir $@) && $(GINKGO) generate $(notdir $*)
 
