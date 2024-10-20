@@ -1,0 +1,3 @@
+[submodule "vendor/pulumi"]
+	path = vendor/pulumi
+	url = https://github.com/pulumi/pulumi
