@@ -10,6 +10,7 @@ import (
 
 var _ = Describe("Language", func() {
 	BeforeEach(func(ctx context.Context) {
+		// https://onsi.github.io/ginkgo/#dynamically-generating-specs
 		tests, err := host.client.GetLanguageTests(ctx,
 			&testingrpc.GetLanguageTestsRequest{},
 		)
