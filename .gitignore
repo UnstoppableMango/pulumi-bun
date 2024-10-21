@@ -5,3 +5,7 @@ proto/
 
 go.work
 go.work.sum
+*.test
+
+# User specific settings
+.vscode/settings.json
