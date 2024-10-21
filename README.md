@@ -8,6 +8,8 @@ Just me fiddling around and seeing if I can implement a Pulumi language provider
 
 <https://github.com/pulumi/pulumi/wiki/New-Language-Bring-up>
 
+<https://github.com/pulumi/pulumi/tree/master/sdk/nodejs/cmd/pulumi-language-nodejs>
+
 <https://github.com/pulumi/pulumi-dotnet/blob/main/pulumi-language-dotnet/main.go>
 
 <https://github.com/pulumi/pulumi/pull/1456>
