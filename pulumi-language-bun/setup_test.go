@@ -209,8 +209,9 @@ func runLanguagePlugin(t *testing.T, ctx context.Context, address string, engine
 		LanguagePluginTarget: fmt.Sprintf("127.0.0.1:%d", handle.Port),
 		TemporaryDirectory:   root,
 		SnapshotDirectory:    "./testdata",
-		CoreSdkDirectory:     "TODO",
+		CoreSdkDirectory:     "../../vendor/sdk/nodejs", // How far does this get us
 		CoreSdkVersion:       sdk.Version.String(),
+		//https://github.com/pulumi/pulumi/blob/fd07f42c6116ea9685b24ca35ba5832994196fc5/sdk/nodejs/cmd/pulumi-language-nodejs/language_test.go#L220
 		SnapshotEdits: []*testingrpc.PrepareLanguageTestsRequest_Replacement{
 			{
 				Path:        "package\\.json",
