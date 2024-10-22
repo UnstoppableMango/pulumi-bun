@@ -9,6 +9,12 @@ import (
 	testingrpc "github.com/pulumi/pulumi/sdk/v3/proto/go/testing"
 )
 
+var (
+	testEngine        testingrpc.LanguageTestClient
+	languageTestToken string
+	languageTests     []string
+)
+
 func TestPulumiLanguageBun(t *testing.T) {
 	RegisterFailHandler(Fail)
 
@@ -21,11 +27,9 @@ func TestPulumiLanguageBun(t *testing.T) {
 	)
 	g.Expect(err).NotTo(HaveOccurred())
 
+	testEngine = engine
+	languageTestToken = runLanguagePlugin(t, ctx, engineAddress, engine)
+	languageTests = tests.Tests
+
 	RunSpecs(t, "Pulumi Bun Language Suite")
 }
-
-var _ = BeforeSuite(func(ctx context.Context) {
-})
-
-var _ = AfterSuite(func() {
-})

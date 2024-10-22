@@ -187,8 +187,9 @@ func runTestingHost(t *testing.T, ctx context.Context) (string, testingrpc.Langu
 	return engineAddress, client
 }
 
-func runLanguagePlugin(t *testing.T, ctx context.Context, address string, engine testingrpc.LanguageTestClient) {
+func runLanguagePlugin(t *testing.T, ctx context.Context, address string, engine testingrpc.LanguageTestClient) string {
 	g := NewWithT(t)
+
 	cancel := make(chan bool)
 	handle, err := rpcutil.ServeWithOptions(rpcutil.ServeOptions{
 		Init: func(srv *grpc.Server) error {
@@ -223,4 +224,12 @@ func runLanguagePlugin(t *testing.T, ctx context.Context, address string, engine
 			},
 		},
 	})
+	g.Expect(err).NotTo(HaveOccurred())
+
+	t.Cleanup(func() {
+		close(cancel)
+		g.Expect(<-handle.Done).NotTo(HaveOccurred())
+	})
+
+	return prepare.Token
 }

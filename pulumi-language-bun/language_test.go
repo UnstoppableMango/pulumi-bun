@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
@@ -9,19 +10,15 @@ import (
 )
 
 var _ = Describe("Language", func() {
-	BeforeEach(func(ctx context.Context) {
-		// https://onsi.github.io/ginkgo/#dynamically-generating-specs
-		tests, err := host.client.GetLanguageTests(ctx,
-			&testingrpc.GetLanguageTestsRequest{},
-		)
-		Expect(err).NotTo(HaveOccurred())
+	for _, test := range languageTests {
+		It(fmt.Sprintf("should pass %s", test), func(ctx context.Context) {
+			result, err := testEngine.RunLanguageTest(ctx, &testingrpc.RunLanguageTestRequest{
+				Token: languageTestToken,
+				Test:  test,
+			})
 
-	})
-
-	Context("pulumi-test-language", func() {
-		BeforeEach(func() {
-			Expect(engine).NotTo(BeNil())
-			Expect(engineAddress).NotTo(BeEmpty())
+			Expect(err).NotTo(HaveOccurred())
+			Expect(result.Success).To(BeTrueBecause("the language test passes"))
 		})
-	})
+	}
 })
