@@ -23,7 +23,7 @@ type bunLanguageHost struct {
 	fsys          afero.Fs
 }
 
-func newLanguageHost(exec, engineAddress, tracing string, binary string) pulumirpc.LanguageRuntimeServer {
+func NewLanguageHost(exec, engineAddress, tracing string, binary string) pulumirpc.LanguageRuntimeServer {
 	return &bunLanguageHost{
 		exec:          exec,
 		engineAddress: engineAddress,
@@ -34,8 +34,7 @@ func newLanguageHost(exec, engineAddress, tracing string, binary string) pulumir
 }
 
 func (host *bunLanguageHost) connectToEngine() (pulumirpc.EngineClient, io.Closer, error) {
-	conn, err := grpc.Dial(
-		host.engineAddress,
+	conn, err := grpc.NewClient(host.engineAddress,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 		rpcutil.GrpcChannelOptions(),
 	)
@@ -59,4 +58,12 @@ func (host *bunLanguageHost) GetRequiredPlugins(
 	return &pulumirpc.GetRequiredPluginsResponse{
 		Plugins: plugins,
 	}, nil
+}
+
+func (host *bunLanguageHost) Pack(
+	ctx context.Context,
+	req *pulumirpc.PackRequest,
+) (*pulumirpc.PackResponse, error) {
+	// TODO
+	return &pulumirpc.PackResponse{}, nil
 }
