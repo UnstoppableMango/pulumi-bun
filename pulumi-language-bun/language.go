@@ -59,3 +59,11 @@ func (host *bunLanguageHost) GetRequiredPlugins(
 		Plugins: plugins,
 	}, nil
 }
+
+func (host *bunLanguageHost) Pack(
+	ctx context.Context,
+	req *pulumirpc.PackRequest,
+) (*pulumirpc.PackResponse, error) {
+	// TODO
+	return &pulumirpc.PackResponse{}, nil
+}
