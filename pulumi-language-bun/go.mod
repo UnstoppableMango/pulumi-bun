@@ -5,7 +5,7 @@ go 1.23.2
 require (
 	github.com/onsi/ginkgo/v2 v2.20.2
 	github.com/onsi/gomega v1.34.2
-	github.com/pulumi/pulumi/sdk/v3 v3.137.0
+	github.com/pulumi/pulumi/sdk/v3 v3.138.0
 	github.com/spf13/afero v1.11.0
 	google.golang.org/grpc v1.67.1
 	google.golang.org/protobuf v1.35.1
