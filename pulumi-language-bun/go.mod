@@ -3,7 +3,7 @@ module github.com/unstoppablemango/pulumi-bun/pulumi-language-bun
 go 1.23.2
 
 require (
-	github.com/onsi/ginkgo/v2 v2.21.0
+	github.com/onsi/ginkgo/v2 v2.22.0
 	github.com/onsi/gomega v1.36.0
 	github.com/pulumi/pulumi/sdk/v3 v3.138.0
 	github.com/spf13/afero v1.11.0
