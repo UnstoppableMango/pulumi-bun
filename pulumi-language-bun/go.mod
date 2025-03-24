@@ -8,7 +8,7 @@ require (
 	github.com/pulumi/pulumi/sdk/v3 v3.157.0
 	github.com/spf13/afero v1.14.0
 	google.golang.org/grpc v1.71.0
-	google.golang.org/protobuf v1.36.5
+	google.golang.org/protobuf v1.36.6
 )
 
 require (
