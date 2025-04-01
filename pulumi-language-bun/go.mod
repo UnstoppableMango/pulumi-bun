@@ -7,7 +7,7 @@ require (
 	github.com/onsi/gomega v1.36.3
 	github.com/pulumi/pulumi/sdk/v3 v3.159.0
 	github.com/spf13/afero v1.14.0
-	google.golang.org/grpc v1.71.0
+	google.golang.org/grpc v1.71.1
 	google.golang.org/protobuf v1.36.6
 )
 
