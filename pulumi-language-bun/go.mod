@@ -5,7 +5,7 @@ go 1.23.2
 require (
 	github.com/onsi/ginkgo/v2 v2.23.4
 	github.com/onsi/gomega v1.37.0
-	github.com/pulumi/pulumi/sdk/v3 v3.160.0
+	github.com/pulumi/pulumi/sdk/v3 v3.162.0
 	github.com/spf13/afero v1.14.0
 	google.golang.org/grpc v1.71.1
 	google.golang.org/protobuf v1.36.6
@@ -31,7 +31,7 @@ require (
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
-	github.com/mattn/go-isatty v0.0.19 // indirect
+	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-localereader v0.0.1 // indirect
 	github.com/mattn/go-runewidth v0.0.15 // indirect
 	github.com/mitchellh/go-ps v1.0.0 // indirect
@@ -45,7 +45,7 @@ require (
 	github.com/pkg/term v1.1.0 // indirect
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
-	github.com/spf13/cobra v1.7.0 // indirect
+	github.com/spf13/cobra v1.8.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/stretchr/objx v0.2.0 // indirect
 	github.com/uber/jaeger-client-go v2.30.0+incompatible // indirect
