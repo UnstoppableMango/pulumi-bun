@@ -1,4 +1,4 @@
 [submodule "vendor/pulumi"]
 	path = vendor/pulumi
 	url = https://github.com/pulumi/pulumi
-	branch = v3.168.0
+	branch = v3.169.0
