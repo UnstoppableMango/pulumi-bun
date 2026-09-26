@@ -2,7 +2,7 @@ module github.com/unstoppablemango/pulumi-bun/pulumi-language-bun
 
 go 1.24.0
 
-toolchain go1.26.3
+toolchain go1.27.1
 
 require (
 	github.com/onsi/ginkgo/v2 v2.23.4
