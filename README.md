@@ -1,5 +1,7 @@
 # Experimental Pulumi Bun Support
 
+[![Hercules CI](https://hercules-ci.com/api/v1/site/github/account/UnstoppableMango/project/pulumi-bun/badge)](https://hercules-ci.com/github/UnstoppableMango/pulumi-bun)
+
 Just me fiddling around and seeing if I can implement a Pulumi language provider for Bun now that it has HTTP2 server support.
 
 ## References
